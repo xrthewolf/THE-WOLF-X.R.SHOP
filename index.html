@@ -87,7 +87,7 @@ nav a em{position:absolute;top:0;left:18%;background:var(--r);color:#fff;border-
 /* ============ تنظیم اتصال (مهم) ============
  آدرس Web App گوگل اسکریپت (که با /exec تموم میشه) رو به‌جای متن زیر بذار.
  تا وقتی عوض نشه، سایت در حالت آزمایشی (فقط روی همین مرورگر) کار می‌کنه. */
-const FB='PUT_YOUR_GOOGLE_APPS_SCRIPT_URL_HERE';
+const FB='https://script.google.com/macros/s/AKfycbzTGvvhGSHx3S1z6ONWeVJ7Vx5PXRX0pqoaoJoewllbLi9o4nGhVqYYv-n2Yg8WQuC75Q/exec';
 const LIVE=/^https:\/\/script\.google\.com\/macros\/s\/[^\s]+\/exec$/.test(FB);
 const KEY='wolf_local_v3',tg=window.Telegram&&Telegram.WebApp,$=s=>document.querySelector(s);
 if(tg){try{tg.ready();tg.expand();tg.setHeaderColor('#050505');tg.setBackgroundColor('#050505')}catch(e){}}
