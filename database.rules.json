@@ -1,0 +1,74 @@
+{
+ "rules": {
+  ".read": false,
+  ".write": false,
+  "cfg": {
+   ".read": true,
+   ".write": "auth.uid === 'PUT_ADMIN_UID_HERE'"
+  },
+  "prods": {
+   ".read": true,
+   ".write": "auth.uid === 'PUT_ADMIN_UID_HERE'"
+  },
+  "notes": {
+   ".read": "auth.uid === 'PUT_ADMIN_UID_HERE'",
+   ".write": "auth.uid === 'PUT_ADMIN_UID_HERE'"
+  },
+  "users": {
+   ".read": "auth.uid === 'PUT_ADMIN_UID_HERE'",
+   ".write": "auth.uid === 'PUT_ADMIN_UID_HERE'",
+   "$u": {
+    ".read": "auth != null && auth.uid === $u",
+    ".write": "auth != null && auth.uid === $u && newData.exists() && newData.child('bal').val() >= 0 && (data.exists() ? (newData.child('bal').val() <= data.child('bal').val() && newData.child('fz').val() === data.child('fz').val()) : (newData.child('bal').val() === 0 && newData.child('fz').val() === 0))",
+    ".validate": "newData.hasChildren(['name','bal','fz']) && newData.child('name').isString() && newData.child('name').val().length <= 40"
+   }
+  },
+  "orders": {
+   ".read": "auth.uid === 'PUT_ADMIN_UID_HERE' || (auth != null && query.orderByChild === 'uid' && query.equalTo === auth.uid)",
+   ".write": "auth.uid === 'PUT_ADMIN_UID_HERE'",
+   ".indexOn": [
+    "uid"
+   ],
+   "$o": {
+    ".write": "auth != null && !data.exists() && newData.child('uid').val() === auth.uid && newData.child('st').val() === 'p' && newData.child('price').val() === root.child('prods').child(newData.child('pid').val()).child('price').val() && (newData.child('m').val() === 'c' || (newData.child('m').val() === 'w' && newData.parent().parent().child('users').child(auth.uid).child('bal').val() === data.parent().parent().child('users').child(auth.uid).child('bal').val() - newData.child('price').val()))"
+   }
+  },
+  "tops": {
+   ".read": "auth.uid === 'PUT_ADMIN_UID_HERE' || (auth != null && query.orderByChild === 'uid' && query.equalTo === auth.uid)",
+   ".write": "auth.uid === 'PUT_ADMIN_UID_HERE'",
+   ".indexOn": [
+    "uid"
+   ],
+   "$t": {
+    ".write": "auth != null && !data.exists() && newData.child('uid').val() === auth.uid && newData.child('st').val() === 'p' && newData.child('amt').isNumber() && newData.child('amt').val() > 0"
+   }
+  },
+  "rc": {
+   ".read": "auth.uid === 'PUT_ADMIN_UID_HERE'",
+   ".write": "auth.uid === 'PUT_ADMIN_UID_HERE'",
+   "$r": {
+    ".write": "auth != null && !data.exists() && newData.isString() && newData.val().length < 400000"
+   }
+  },
+  "subs": {
+   ".read": "auth.uid === 'PUT_ADMIN_UID_HERE' || (auth != null && query.orderByChild === 'uid' && query.equalTo === auth.uid)",
+   ".write": "auth.uid === 'PUT_ADMIN_UID_HERE'",
+   ".indexOn": [
+    "uid"
+   ],
+   "$s": {
+    ".read": true
+   }
+  },
+  "tk": {
+   ".read": "auth.uid === 'PUT_ADMIN_UID_HERE' || (auth != null && query.orderByChild === 'uid' && query.equalTo === auth.uid)",
+   ".write": "auth.uid === 'PUT_ADMIN_UID_HERE'",
+   ".indexOn": [
+    "uid"
+   ],
+   "$t": {
+    ".write": "auth != null && !data.exists() && newData.child('uid').val() === auth.uid && newData.child('st').val() === 'o' && newData.child('x').isString() && newData.child('x').val().length <= 1000"
+   }
+  }
+ }
+}
